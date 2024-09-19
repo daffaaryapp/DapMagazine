@@ -38,7 +38,71 @@ class FrontController extends Controller
         // ->take(1)
         ->first();
 
+
+
+
+        //**LATEST FOR YOU**//
+        //entertainment
+        $entertainment_articles = ArticleNews::whereHas('category',function ($query){
+            $query->where('name','Entertainment');
+        })
+        ->where('is_featured','not_featured')
+        ->latest()
+        ->take(3)
+        ->get();
+
+        $entertainment_featured_articles = ArticleNews::whereHas('category',function ($query){
+            $query->where('name','Entertainment');
+        })
+        ->where('is_featured','featured')
+        ->inRandomOrder()
+        // ->take(1)
+        ->first();
+
+
+        //f&b
+        $fnb_articles = ArticleNews::whereHas('category',function ($query){
+            $query->where('name','F&B');
+        })
+        ->where('is_featured','not_featured')
+        ->latest()
+        ->take(3)
+        ->get();
+
+        $fnb_featured_articles = ArticleNews::whereHas('category',function ($query){
+            $query->where('name','F&B');
+        })
+        ->where('is_featured','featured')
+        ->inRandomOrder()
+        // ->take(1)
+        ->first();
+
+
+        //finance
+        $finance_articles = ArticleNews::whereHas('category',function ($query){
+            $query->where('name','Finance');
+        })
+        ->where('is_featured','not_featured')
+        ->latest()
+        ->take(3)
+        ->get();
+
+        $finance_featured_articles = ArticleNews::whereHas('category',function ($query){
+            $query->where('name','Finance');
+        })
+        ->where('is_featured','featured')
+        ->inRandomOrder()
+        // ->take(1)
+        ->first();
+
+
+
+        //**FINISHING**//
         //mengembalikan ke halaman front, dan membyuat array berisi $categories
-        return view('front.index', compact('categories','articles','authors','featured_articles','bannerads'));
+        return view('front.index', compact('categories','articles','authors','featured_articles','bannerads',
+        'entertainment_articles','entertainment_featured_articles',
+        'fnb_articles','fnb_featured_articles',
+        'finance_articles','finance_featured_articles'
+    ));
     }
 }
