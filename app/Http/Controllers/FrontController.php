@@ -98,11 +98,30 @@ class FrontController extends Controller
 
 
         //**FINISHING**//
-        //mengembalikan ke halaman front, dan membyuat array berisi $categories
+        //mengirim data ke halaman front, dan membyuat array berisi $categories
         return view('front.index', compact('categories','articles','authors','featured_articles','bannerads',
         'entertainment_articles','entertainment_featured_articles',
         'fnb_articles','fnb_featured_articles',
         'finance_articles','finance_featured_articles'
     ));
     }
+
+
+    public function category(Category $category){
+        //mengambil semua data di category
+        $categories = Category::all();
+        
+        //mengambil semua data di category
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+        ->where('type','banner')
+        ->inRandomOrder()
+        // ->take(1)
+        ->first();
+        
+
+        //**FINISHING**//
+        //mengirim data ke halaman category , dan membyuat array berisi $categories   
+        return view('front.category', compact('category', 'categories','bannerads'));
+    }
+
 }
