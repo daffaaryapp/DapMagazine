@@ -118,10 +118,25 @@ class FrontController extends Controller
         // ->take(1)
         ->first();
         
-
+        
         //**FINISHING**//
         //mengirim data ke halaman category , dan membyuat array berisi $categories   
         return view('front.category', compact('category', 'categories','bannerads'));
+    }
+    
+    public function author(Author $author){
+        //data categori
+        $categories = Category::all();
+
+        //mengambil semua data di category
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+        ->where('type','banner')
+        ->inRandomOrder()
+        // ->take(1)
+        ->first();
+
+        return view('front.author', compact('categories','author','bannerads'));
+        
     }
 
 }
