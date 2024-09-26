@@ -139,4 +139,27 @@ class FrontController extends Controller
         
     }
 
+
+    //fungsi SEARCH (Pencarian)
+    public function search(Request $request){
+
+        //validasi keyword
+        $request->validate([
+            'keyword' => ['required','string','max:255']
+        ]);
+
+        //ambil data category
+        $categories = Category::all();
+
+        //mengambil nilai keyword simpan di dalam $keyword
+        $keyword = $request->keyword;
+
+        //melakukan pencarian pada tabel ArticleNews dengan nilai keyword
+        $articles = ArticleNews::with(['category','author'])
+        ->where('name','like','%'. $keyword . '%')->paginate(6);
+
+        //mengembalikkan data
+        return view('front.search', compact('articles','keyword','categories'));
+    }
+
 }
