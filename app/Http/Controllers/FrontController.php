@@ -123,6 +123,7 @@ class FrontController extends Controller
         //mengirim data ke halaman category , dan membyuat array berisi $categories   
         return view('front.category', compact('category', 'categories','bannerads'));
     }
+
     
     public function author(Author $author){
         //data categori
@@ -162,4 +163,34 @@ class FrontController extends Controller
         return view('front.search', compact('articles','keyword','categories'));
     }
 
+
+
+    public function details($slug) {
+        // Find the article by slug, or return a 404 error if not found
+        $articleNews = ArticleNews::where('slug', $slug)->first();
+    
+        if (!$articleNews) {
+            abort(404, 'Article not found');
+        }
+    
+        //ambil data category
+        $categories = Category::all();
+    
+        //mengambil data artricle yang berafiliasi juga dengan article
+        $articles = ArticleNews::with(['category'])
+            //mengambil data yang not_featured saja
+            ->where('is_featured', 'not_featured')
+            ->where('id', '!=', $articleNews->id)
+            ->latest()
+            ->take(3)
+            ->get();
+    
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+            ->where('type', 'banner')
+            ->inRandomOrder()
+            // ->take(1)
+            ->first();
+    
+        return view('front.details', compact('articleNews', 'categories', 'articles', 'bannerads'));
+    }
 }

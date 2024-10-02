@@ -12,10 +12,10 @@
 
         @stack('after-styles')
 	</head>
-    //isi content tiap halaman
+    {{-- //isi content tiap halaman --}}
     @yield('content')
     
-    //untuk javascript
+    {{-- //untuk javascript --}}
     @stack('after-scripts')
 
     @stack('before-scripts')
