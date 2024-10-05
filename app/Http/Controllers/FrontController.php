@@ -206,7 +206,7 @@ class FrontController extends Controller
             $square_ads_2 = $square_ads->get(1);
         }
 
-
+        //iklan tentang penulis ,supaya iklan yang di tampilkan hanya yang penulis buat
         $author_news = ArticleNews::where('author_id', $articleNews->author_id)
         ->where('id','!=',$articleNews->id)
         ->inRandomOrder()
